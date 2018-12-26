@@ -1,0 +1,51 @@
+<div class="text-center">
+  <h1 class="display-3"><%= @project.name %></h1>
+</div>
+<p class="lead"><%= @project.summary %></p><br>
+<div class="text-right">
+  <small><p>Start date: <%= @project.start_date %> ---------> End date: <%= @project.end_date %></p></small>
+  <% if user_signed_in? %>
+    <%= link_to "Edit project", edit_project_path(@project), :class =>'btn btn-secondary btn-sm' %>
+    <%= link_to "Delete project", project_path(@project), method: :delete, data: {confirm: "Delete project?"}, :class =>'btn btn-danger btn-sm' %>
+  <% end %>
+</div>
+<hr>
+<h2>Tasks</h2>
+<% @project.tasks.each do |t| %>
+  <div class="alert alert-light">
+    <div class="text-right">
+      <% if user_signed_in? %>
+        <%= link_to "Change", edit_project_task_path(@project, t), :class =>'btn btn-outline-dark btn-sm'%>
+        <%= link_to "X", [t.project, t], method: :delete, data: {confirm: "Delete task?"}, :class =>'btn btn-outline-danger btn-sm btn-circle'%>
+      <% end %>
+    </div>
+    <h5><%= t.title %></h5>
+    <p><%= t.description %></p>
+    <h6><%= t.status %></h6>
+  </div>
+  <hr>
+<% end %>
+<hr>
+<h2>Add task</h2>
+<%= form_for ([@project, @project.tasks.build]) do |f| %>
+  <% if @project.errors.any? %>
+    <% @project.errors.full_messages.each do |msg| %>
+     <div class="alert alert-danger"><%= msg %></div>
+    <% end %>
+  <% end %>
+  <p>
+    <%= f.label :title %><br>
+    <%= f.text_field(:title, {:class => 'form-control'}) %>
+  </p>
+  <p>
+    <%= f.label :decription %><br>
+    <%= f.text_area(:description, {:class => 'form-control'}) %>
+  </p>
+  <p>
+    <%= f.label :status %><br>
+    <%= f.select(:status, ['New', 'In progress', 'Done'], {}, {:class => 'form-control'}) %>
+  </p>
+  <p>
+    <%= f.submit("Add", {:class => 'btn btn-success'}) %>
+  </p>
+<% end %>

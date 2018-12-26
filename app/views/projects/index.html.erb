@@ -1,0 +1,9 @@
+<h1>All project</h1>
+<% @project.each do |p| %>
+  <div class="alert alert-light">
+    <h3><%= p.name %></h3>
+    <p class="size"><%= p.summary %></p>
+    <%= link_to "Open project", project_path(p), :class => 'btn btn-outline-primary btn-sm' %>
+  </div>
+  <hr>
+<% end %>

@@ -1,0 +1,23 @@
+<h2>Edit task</h2>
+<%= form_for :task, url: project_task_path(@task), method: :patch do |f| %>
+  <% if @project.errors.any? %>
+    <% @project.errors.full_messages.each do |msg| %>
+     <div class="alert alert-danger"><%= msg %></div>
+    <% end %>
+  <% end %>
+  <p>
+    <%= f.label :title %><br>
+    <%= f.text_field(:title, {:class => 'form-control'}) %>
+  </p>
+  <p>
+    <%= f.label :description %><br>
+    <%= f.text_area(:description, {:class => 'form-control'}) %>
+  </p>
+  <p>
+    <%= f.label :status %><br>
+    <%= f.select(:status, ['New', 'In progress', 'Done'], {}, {:class => 'form-control'}) %>
+  </p>
+  <p>
+    <%= f.submit("Change", {:class => 'btn btn-success'}) %>
+  </p>
+<% end %>
